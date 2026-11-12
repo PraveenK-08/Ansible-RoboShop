@@ -13,13 +13,14 @@
   tasks:
    - name: create EC2 instances
      amazon.aws.ec2_spot_instance:
+       state: present
+       spot_type: "one-time"
+       tags:
+          Name: "roboshop-{{ item }}"
        launch_specification:
-         tags:
-          name: "roboshop-{{ item }}"
          image_id: "{{ ami_id }}"
          instance_type: t3.micro`
          security_groups: "roboshop-{{ item }}"
-         type: "one-time"
      loop: "{{ instance }}"
      when: action == "create"
      register: ec2_info
