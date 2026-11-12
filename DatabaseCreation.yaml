@@ -13,7 +13,7 @@
    - name: create EC2 instances
      amazon.aws.ec2_spot_instance:
        tags:
-        Name: "roboshop-{{ item }}"
+        name: "roboshop-{{ item }}"
        state: present
        spot_type: "one-time"
        region: "us-east-1"   
