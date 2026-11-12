@@ -1,7 +1,6 @@
 - name: create EC2 instances for Database Servers
   hosts: localhost
   connection: local
-  become: true
   vars:
     instance:
       - mongodb
