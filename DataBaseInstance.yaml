@@ -30,9 +30,10 @@
      amazon.aws.route53:
        state: present
        zone: "teram.store"
-       record: "{{ item }}.teram.store"
+       record: "{{ item.item }}.teram.store"
        type: A
        ttl: 1
-       value: "{{ec2_info.results.instances[0].private_ip_address}}"
-     loop: "{{ instance }}"
+       value: "{{item.instances[0].private_ip_address}}"
+       overwrite: yes
+     loop: "{{ ec2_info.results}}"
     
