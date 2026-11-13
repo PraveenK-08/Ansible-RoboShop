@@ -1,0 +1,17 @@
+- name: Count AWS EC2 Instances
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Gather information about all EC2 instances in a region
+      amazon.aws.ec2_instance_info:
+        region: us-east-1
+        # Optional: Filter by state (e.g., only count running instances)
+        # filters:
+        #   instance-state-name: ["running"]
+      register: ec2_info
+
+    - name: Display the total instance count
+      ansible.builtin.debug:
+        msg: "Total EC2 instances found: {{ ec2_info.instances | length }}"
