@@ -1,7 +1,7 @@
 - name: mongodb server 
   hosts: mongodb.teram.store
   become: true
-  -tasks:
+  tasks:
     - name: creating repo file for mongodb
       copy:
         src: mongodb.repo
