@@ -24,11 +24,10 @@
      when: action == "create"
      register: ec2_info
 
-   - debug:
-      msg: "{{ ec2_info.results }}"
+  #  - debug:
+  #     msg: "{{ ec2_info.results }}"
    - name: create R53 records for database instances
      amazon.aws.route53:
-       state: present
        zone: "teram.store"
        record: "{{ item.item }}.teram.store"
        type: A
@@ -36,4 +35,8 @@
        value: "{{item.instances[0].private_ip_address}}"
        overwrite: yes
      loop: "{{ ec2_info.results}}"
-    
+
+   - name: print private ip addresses of database instances
+     debug:
+       msg: "{{ item.instances[0].private_ip_address }}"
+     loop: "{{ ec2_info.results }}"
