@@ -1,0 +1,32 @@
+- name: settingup the redis server
+  hosts: redis.teram.store
+  become: true
+  tasks:
+    - name: enable redis 7 version
+      command: dnf module enable redis:7 -y
+    - name: install redis
+      package:
+         name: redis
+         state: present
+    - name: Edit bindIp in redis config file
+      lineinfile: 
+        path: /etc/redis.conf
+        regexp: '^bind'
+        line: 'bind 0.0.0.0'
+      replace:
+        path: /etc/redis.conf
+        regexp: '^protected-mode'
+        line: 'protected-mode no'
+    - name: start redis service
+      service:
+        name: redis
+        state: started
+        enabled: true
+    - name: status checking
+      command: systemctl status redis
+      register: redis_status
+    - debug:
+       msg: "{{ redis_status.results}}"  
+
+
+
