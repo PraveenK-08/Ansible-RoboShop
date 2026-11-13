@@ -12,7 +12,7 @@
         dest: /etc/yum.repos.d/rabbitmq.repo
     - name: install rabbitmq
       package:
-         name: "{{apps.item}}"
+         name: "{{item}}"
          state: present
       loop : "{{apps}}"   
     - name: start rabbitmq service
