@@ -3,7 +3,7 @@
   become: true
   vars:
     apps:
-     - rabbitmq
+     - rabbitmq-server
      - erlang
   tasks:
     - name: creating repo file for rabbitmq
