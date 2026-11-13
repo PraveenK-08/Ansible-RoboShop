@@ -28,6 +28,7 @@
   #     msg: "{{ ec2_info.results }}"
    - name: create R53 records for database instances
      amazon.aws.route53:
+       state: present
        zone: "teram.store"
        record: "{{ item.item }}.teram.store"
        type: A
