@@ -27,7 +27,7 @@
       command: systemctl status redis
       register: redis_status
     - debug:
-       msg: "{{ redis_status.results}}"  
+       msg: "{{ redis_status.stdout_lines }}"  
 
 
 
