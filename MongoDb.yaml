@@ -4,5 +4,5 @@
   tasks:
     - name: creating repo file for mongodb
       copy:
-        src: mongodb.repo
+        src: /files/mongodb.repo
         dest: /etc/yum.repos.d/mongodb.repo
