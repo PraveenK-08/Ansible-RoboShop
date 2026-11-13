@@ -10,12 +10,12 @@
          state: present
     - name: Edit bindIp in redis config file
       lineinfile: 
-        path: /etc/redis.conf
+        path: /etc/redis/redis.conf
         regexp: '^bind'
         line: 'bind 0.0.0.0'
     - name: Edit protected-mode in redis config file  
       replace:
-          path: /etc/redis.conf
+          path: /etc/redis/redis.conf
           regexp: '^protected-mode'
           line: 'protected-mode no'
     - name: start redis service
