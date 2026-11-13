@@ -2,7 +2,7 @@
   hosts: mongodb.teram.store
   become: true
   -tasks:
-    -name: creating repo file for mongodb
-     copy:
-       src: mongodb.repo
-       dest: /etc/yum.repos.d/mongodb.repo
+    - name: creating repo file for mongodb
+      copy:
+        src: mongodb.repo
+        dest: /etc/yum.repos.d/mongodb.repo
