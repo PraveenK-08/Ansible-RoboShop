@@ -26,3 +26,13 @@
 
    - debug:
       msg: "{{ ec2_info.results }}"
+   - name: create R53 records for database instances
+     amazon.aws.route53:
+       state: present
+       zone: "teram.store"
+       record: "{{ item }}.teram.store"
+       type: A
+       ttl: 1
+       value: "{{ec2_info.results.instances[0].private_ip_address}}"
+     loop: "{{ instance }}"
+    

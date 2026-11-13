@@ -24,6 +24,5 @@
      loop: "{{ instance }}"
      when: action == "create"
      register: ec2_info
-
    - debug:
       msg: "{{ ec2_info.results }}"
