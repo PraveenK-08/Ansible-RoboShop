@@ -21,7 +21,7 @@
     - name: start redis service
       service:
         name: redis
-        state: started
+        state: restarted
         enabled: true
     - name: status checking
       command: systemctl status redis
