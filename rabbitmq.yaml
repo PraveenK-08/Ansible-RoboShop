@@ -1,0 +1,31 @@
+- name: configuration of rabbitmq server
+  hosts: rabbitmq.teram.store
+  become: true
+  vars:
+    apps:
+     - rabbitmq
+     - erlang
+  tasks:
+    - name: creating repo file for rabbitmq
+      copy:
+        src: rabbitmq.repo
+        dest: /etc/yum.repos.d/rabbitmq.repo
+    - name: install rabbitmq
+      package:
+         name: "{{apps.item}}"
+         state: present
+      loop : "{{apps}}"   
+    - name: start rabbitmq service
+      service:
+        name: rabbitmq-server
+        state: started
+        enabled: true
+    - name: create user for rabbitmq
+      community.rabbitmq.rabbitmq_user:
+       user: roboshop
+       password: roboshop123
+       vhost: /
+       configure_priv: .*
+       read_priv: .*
+       write_priv: .*
+       state: present    
