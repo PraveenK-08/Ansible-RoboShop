@@ -24,7 +24,7 @@
         state: directory
      
     - name: creating system cart
-      cart:
+      user:
        name: roboshop
        create_home: false
        state: present
