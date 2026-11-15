@@ -1,0 +1,18 @@
+- name: configurating Shipping server
+  hosts: shipping.teram.store
+  become: true
+  tasks:
+   - name: enable maven 3.9 version
+     command: dnf module enable maven:3.9 -y
+
+   - name: installing  maven and JDK
+     package:
+       name: 
+       - maven
+       - java-25-openjdk-devel
+       state: present
+   
+  #  - name: select java version
+  #    community.general.alternatives:
+  #       name: java
+  #       path: /usr/lib/jvm/java-17-openjdk-amd64/bin/java  
