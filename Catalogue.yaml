@@ -16,7 +16,25 @@
     - name: check installed version
       command: node --version
       register: nodeversion
+    - name: creating app directory
+      file:
+        path: /app
+        state: directory
+     
+    - name: creating system user
+      user:
+       name: roboshop
+       state: present
+       shell: /sbin/nologin
+       home: /app
+       system: true
+       comment: roboshop system user
 
-    - name: printing version
+    - name: check system user    
+      command: id roboshop
+      register: user
       debug:
-       msg: "{{nodeversion}}"
+       -msg: {{user}}
+
+
+
