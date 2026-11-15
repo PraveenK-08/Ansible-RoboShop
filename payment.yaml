@@ -58,7 +58,7 @@
 
    - name: reloading the server
      systemd_service:
-       deamon_reload: true
+       daemon_reload: true
 
    - name: restarting and enable the server
      service:
