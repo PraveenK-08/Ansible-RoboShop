@@ -49,7 +49,7 @@
      ansible.builtin.pip:
        requirements: /app/requirements.txt
        virtualenv: /app/.venv
-       virtual commad: python3.14 -m venv
+       virtualenv_command: python3.14 -m venv
 
    - name: creating  service file
      copy:
