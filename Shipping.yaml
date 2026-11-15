@@ -45,7 +45,7 @@
        dest: /tmp/shipping.zip
 
    - name: unzip the file
-     unarchieve:
+     unarchive:
        src: /tmp/shipping.zip
        dest: /app
        remote_src: yes
