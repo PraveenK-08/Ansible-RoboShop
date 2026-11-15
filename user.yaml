@@ -1,0 +1,70 @@
+- name: configuration of user Server
+  hosts: user.teram.store
+  become: yes
+  tasks:
+    - name: disable nodejs module
+      command: dnf module disable nodejs -y
+    
+    - name: Enable nodejs module
+      command: dnf module enable nodejs:24 -y
+
+    - name: installing nodejs 
+      package:
+       name: nodejs
+       state: present
+
+    - name: remove existing app directory
+      file: 
+       path: /app
+       state: absent  
+
+    - name: creating app directory
+      file:
+        path: /app
+        state: directory
+     
+    - name: creating system user
+      user:
+       name: roboshop
+       create_home: false
+       state: present
+       shell: /sbin/nologin
+       home: /app
+       system: true
+       comment: roboshop system user
+ 
+    - name:  remove existing user.zip
+      file: 
+        path: /tmp/user.zip
+        state: absent
+
+    - name: downloading user zip file
+      get_url:
+       url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/user-v4.zip
+       dest: /tmp/user.zip
+
+    - name: extract or unzip the file
+      unarchive:
+       src: /tmp/user.zip
+       dest: /app
+       remote_src: yes
+
+     - name: Downloading and installing dependencies
+      community.general.npm:
+       path: /app
+       state: present          
+    
+    - name: creating service file for user
+      copy:
+       src: user.service.j2
+       dest: /etc/systemd/system/user.service
+
+    - name: reloading the server
+      systemd_service:
+       daemon_reload: true
+
+    - name: start and enable the service
+      service:
+       name: user
+       state: restarted
+       enabled: true   
