@@ -54,7 +54,5 @@
        overwrite: yes
        loop: "{{ ec2_info.results }}"
        when: action == "create" and item.item == "frontend"
-     tags:
-        - R53
        
      
