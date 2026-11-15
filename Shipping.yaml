@@ -10,15 +10,80 @@
        name: 
        - maven
        - java-25-openjdk-devel
+       - maven-openjdk25
+       - mysql
        state: present
-   - name: copying the java path link
-     shell: readlink -f $(which java)
-     register: javapathLink
-   - name: full path
-     debug:
-      msg: "{{ javapathLink.stdout}}"
 
-  #  - name: select java version
-  #    community.general.alternatives:
-  #       name: java
-  #       path:  
+   - name: creating system user
+     user:
+       name: roboshop
+       create_home: false
+       state: present
+       shell: /sbin/nologin
+       home: /app
+       system: true
+       comment: roboshop system user
+
+   - name: removing the old app directory
+     file:
+       path: /app
+       state: absent
+
+   - name: creating the app directory
+     file:
+       path: /app
+       state: directory
+
+   - name: removing the existing app file
+     file:
+       path: /tmp/shipping.zip
+       state: absent
+
+   - name: downloading the app file
+     get_url:
+       url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/shipping-v4.zip
+       dest: /tmp/shipping.zip
+
+   - name: unzip the file
+     unarchieve:
+       src: /tmp/shipping.zip
+       dest: /app
+       remote_src: yes
+
+   - name: Downloading and installing dependencies
+     command: mvn clean package
+     args:
+       chdir: /app
+
+   - name: moving the shipping.jar file
+     command: mv target/shipping.jar shipping.jar
+     args:
+       chdir: /app   
+
+   - name: check whether the cities loaded or not
+     command: mysql -h mysql.teram.store -u root -pRoboShop@1 -N -B -e "SELECT COUNT(*) FROM cities.cities;"   
+     register: cities_count
+     ignore_errors: true
+
+   - name: loading the cities
+     shell: mysql -h mysql.teram.store -uroot -pRoboShop@1 < /app/db/master-data.sql                   
+     when:  cities_count.rc!=0 or cities_count.stdout | int == 0
+
+   - name: create app user for mysql
+     shell: mysql -h mysql.teram.store -uroot -pRoboShop@1 < /app/db/app-user.sql   
+
+   - name: importing the shipping service file
+     copy:
+       src: shipping.service.j2
+       dest: /etc/systemd/system/shipping.service
+
+   - name: reloading the server
+     systemd_service:
+      daemon_reload: true
+
+   - name: restarting and enabled the service
+     service:
+      name: shipping
+      state: restarted
+      enabled: true    
+    
