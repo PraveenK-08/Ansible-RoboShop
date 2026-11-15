@@ -15,7 +15,7 @@
      - dispatch
      - frontend
    action: create
-   my_ip: 59.93.117.123/32
+   my_ip: 61.3.33.158/32
   tasks:
    - name: create security groups
      amazon.aws.ec2_security_group:
