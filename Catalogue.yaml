@@ -33,6 +33,8 @@
     - name: check system user    
       command: id roboshop
       register: user
+      
+    - name: print user details  
       debug:
        -msg: "{{ user }}"
 
