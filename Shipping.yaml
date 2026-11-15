@@ -11,8 +11,14 @@
        - maven
        - java-25-openjdk-devel
        state: present
-   
+   - name: copying the java path link
+     command: readlink -f $(java-25-openjdk-devel)
+     register: javapathLink
+   - name: full path
+     debug:
+      msg: {{javapathLink}}
+
   #  - name: select java version
   #    community.general.alternatives:
   #       name: java
-  #       path: /usr/lib/jvm/java-17-openjdk-amd64/bin/java  
+  #       path:  
