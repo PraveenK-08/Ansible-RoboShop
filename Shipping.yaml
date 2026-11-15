@@ -16,7 +16,7 @@
      register: javapathLink
    - name: full path
      debug:
-      msg: "{{ javapathLink }}"
+      msg: "{{ javapathLink.stdout}}"
 
   #  - name: select java version
   #    community.general.alternatives:
