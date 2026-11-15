@@ -12,7 +12,7 @@
        - java-25-openjdk-devel
        state: present
    - name: copying the java path link
-     command: readlink -f $(java-25-openjdk-devel)
+     command: readlink -f $(which java)
      register: javapathLink
    - name: full path
      debug:
