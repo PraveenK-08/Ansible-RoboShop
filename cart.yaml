@@ -1,0 +1,70 @@
+- name: configuration of cart Server
+  hosts: cart.teram.store
+  become: yes
+  tasks:
+    - name: disable nodejs module
+      command: dnf module disable nodejs -y
+    
+    - name: Enable nodejs module
+      command: dnf module enable nodejs:24 -y
+
+    - name: installing nodejs 
+      package:
+       name: nodejs
+       state: present
+
+    - name: remove existing app directory
+      file: 
+       path: /app
+       state: absent  
+
+    - name: creating app directory
+      file:
+        path: /app
+        state: directory
+     
+    - name: creating system cart
+      cart:
+       name: roboshop
+       create_home: false
+       state: present
+       shell: /sbin/nologin
+       home: /app
+       system: true
+       comment: roboshop system cart
+ 
+    - name:  remove existing cart.zip
+      file: 
+        path: /tmp/cart.zip
+        state: absent
+
+    - name: downloading cart zip file
+      get_url:
+       url: https://raw.githubcartcontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/cart-v4.zip
+       dest: /tmp/cart.zip
+
+    - name: extract or unzip the file
+      unarchive:
+       src: /tmp/cart.zip
+       dest: /app
+       remote_src: yes
+
+    - name: Downloading and installing dependencies
+      community.general.npm:
+         path: /app
+         state: present          
+    
+    - name: creating service file for cart
+      copy:
+       src: cart.service.j2
+       dest: /etc/systemd/system/cart.service
+
+    - name: reloading the server
+      systemd_service:
+       daemon_reload: true
+
+    - name: start and enable the service
+      service:
+       name: cart
+       state: restarted
+       enabled: true   
