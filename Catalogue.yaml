@@ -2,7 +2,7 @@
   hosts: catalogue.teram.store
   tasks:
     - name: disable nodejs module
-      command:dnf module disable nodejs -y
+      command: dnf module disable nodejs -y
 
     - name: installing nodejs 
       package:
