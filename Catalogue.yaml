@@ -65,7 +65,7 @@
 
     - name: creating repo file for mongodb client installtion
       copy:
-       src: mongo.repo
+       src: mongodb.repo
        dest: /etc/yum.repos.d/mongodb.repo
 
     - name: installing mongodb client to load data
