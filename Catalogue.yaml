@@ -4,10 +4,13 @@
   tasks:
     - name: disable nodejs module
       command: dnf module disable nodejs -y
+    
+    - name: Enable nodejs module
+      command: dnf module enable nodejs:24 -y
 
     - name: installing nodejs 
       package:
-       name: nodejs:24
+       name: nodejs
        state: present
 
     - name: check installed version
