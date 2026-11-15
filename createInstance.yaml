@@ -52,6 +52,9 @@
        ttl: 1
        value: "{{item.instances[0].public_ip_address}}"
        overwrite: yes
+       loop: "{{ ec2_info.results}}"
        when: action == "create" and item.item == "frontend"
+     tags:
+        - R53
        
      
