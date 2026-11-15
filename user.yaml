@@ -49,10 +49,10 @@
        dest: /app
        remote_src: yes
 
-     - name: Downloading and installing dependencies
+    - name: Downloading and installing dependencies
       community.general.npm:
-       path: /app
-       state: present          
+         path: /app
+         state: present          
     
     - name: creating service file for user
       copy:
