@@ -1,5 +1,6 @@
 - name: configuration of Catalogue Server
   hosts: catalogue.teram.store
+  become: yes
   tasks:
     - name: disable nodejs module
       command: dnf module disable nodejs -y
