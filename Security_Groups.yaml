@@ -32,7 +32,7 @@
             from_port: 22
             to_port: 22
             cidr_ip: 
-             - RoboShop-Main   
+             - "RoboShop-Main"   
      register: sg_info 
      loop: "{{ instance }}"
    - name: print the output
