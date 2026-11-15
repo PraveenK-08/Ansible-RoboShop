@@ -29,10 +29,8 @@
             cidr_ip: 
              - "{{ my_ip }}"
           - proto: tcp
-            from_port: 22
-            to_port: 22
-            cidr_ip: 
-             - "RoboShop-Main"   
+            ports: 22
+            group_name: RoboShop-Main   
      register: sg_info 
      loop: "{{ instance }}"
    - name: print the output
