@@ -15,7 +15,7 @@
      - dispatch
      - frontend
    action: create
-   my_ip: 59.93.116.183/32
+   my_ip: 59.93.117.123/32
   tasks:
    - name: create security groups
      amazon.aws.ec2_security_group:
@@ -28,7 +28,11 @@
             to_port: 22
             cidr_ip: 
              - "{{ my_ip }}"
-             - RoboShop-Main
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 
+             - RoboShop-Main   
      register: sg_info 
      loop: "{{ instance }}"
    - name: print the output
