@@ -23,7 +23,7 @@
         path: /app
         state: directory
      
-    - name: creating system cart
+    - name: creating system cart-user
       user:
        name: roboshop
        create_home: false
