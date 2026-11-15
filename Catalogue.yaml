@@ -51,6 +51,7 @@
       unarchive:
        src: /tmp/catalogue.zip
        dest: /app
+       remote_src: yes
 
     - name: Downloading and installing dependencies
       community.general.npm:
