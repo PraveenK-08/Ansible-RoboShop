@@ -34,7 +34,7 @@
       command: id roboshop
       register: user
       debug:
-       -msg: {{user}}
+       -msg: "{{ user }}"
 
 
 
