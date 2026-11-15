@@ -1,0 +1,18 @@
+- name: configuration of Catalogue Server
+  hosts: catalogue.teram.store
+  tasks:
+    - name: disable nodejs module
+      command:dnf module disable nodejs -y
+
+    - name: installing nodejs 
+      package:
+       name: nodejs:24
+       state: present
+
+    - name: check installed version
+      command: node --version
+      register: nodeversion
+
+    - name: printing version
+      debug:
+       msg: "{{nodeversion}}"
