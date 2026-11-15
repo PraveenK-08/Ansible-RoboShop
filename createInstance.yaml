@@ -32,7 +32,7 @@
      when: action == "create"
      register: ec2_info
 
-   - name: create R53 records for database instances
+   - name: create R53 records for instances
      amazon.aws.route53:
        state: present
        zone: "teram.store"
@@ -42,3 +42,16 @@
        value: "{{item.instances[0].private_ip_address}}"
        overwrite: yes
      loop: "{{ ec2_info.results}}"
+
+   - name: create R53 record for frontend server
+     amazon.aws.route53:
+       state: present
+       zone: "teram.store"
+       record: "teram.store"
+       type: A
+       ttl: 1
+       value: "{{item.instances[0].public_ip_address}}"
+       overwrite: yes
+       when: action == "create" and item.item == "frontend"
+       
+     
