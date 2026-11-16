@@ -14,8 +14,6 @@
       - payment
       - dispatch
       - frontend
-
-    action: delete
     ami_id: ami-0055977a6e828a4f4
 
   tasks:
@@ -26,7 +24,6 @@
        region: "us-east-1"
        wait: false
      loop: "{{ instance }}"
-     when: action == "delete"
 
    - name: delete R53 records for database instances
      amazon.aws.route53:
@@ -36,3 +33,5 @@
        type: A
        ttl: 1
      loop: "{{ instance}}"
+
+     
