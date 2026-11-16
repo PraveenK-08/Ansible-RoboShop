@@ -28,6 +28,11 @@
       url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/frontend-v4.zip
       dest: /tmp/frontend.zip
 
+  - name: creating nginx root directory
+    file: 
+     path: /usr/share/nginx/html/
+     state: directory
+    
   - name: unzip the file
     unarchive:
      src: /tmp/frontend.zip
